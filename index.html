@@ -364,7 +364,7 @@
         
         .check-list li {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 12px;
             font-weight: 500;
             color: var(--text-main);
@@ -377,10 +377,12 @@
             justify-content: center;
             width: 24px;
             height: 24px;
+            flex-shrink: 0;
             background: var(--success);
             color: white;
             border-radius: 50%;
             margin-right: 12px;
+            margin-top: 2px;
             font-size: 14px;
         }
         
@@ -603,7 +605,7 @@
                 id: 'screen13',
                 type: 'offer',
                 title: '🎉 Seu plano personalizado está pronto.',
-                text: 'Com base nas suas respostas, o Método Glúteo 3D é o protocolo mais indicado para quem deseja conquistar um glúteo mais firme, arredondado e definido dedicando apenas 15 minutos por dia, em casa e sem equipamentos.',
+                text: 'Com base nas suas respostas, o Método Glúteo 3D é o protocolo mais indicado para quem deseja conquistar um glúteo mais firme, arredondado e definido dedicando apenas 20 minutos por dia, em casa e sem equipamentos.',
                 buttonText: 'Quero começar meu Método Glúteo 3D'
             }
         ];
@@ -938,13 +940,19 @@
                 </div>
                 
                 <div style="background: #fff; padding: 20px; border-radius: var(--radius-md); border: 2px solid var(--border-color); margin-bottom: 24px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px;">
                         <span>Método Glúteo 3D</span>
-                        <span><span style="text-decoration: line-through; color: var(--text-muted);">R$ 47,00</span></span>
+                        <div style="text-align: right;">
+                            <div style="text-decoration: line-through; color: var(--text-muted); font-size: 13px;">R$ 47,00</div>
+                            <div style="color: #16a34a; font-weight: 700;">R$ 9,90</div>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px;">
                         <span>Receitas da Evolução</span>
-                        <span><span style="text-decoration: line-through; color: var(--text-muted); margin-right: 8px;">R$ 29,90</span><span style="color: #16a34a; font-weight: 700;">R$ 0,00</span></span>
+                        <div style="text-align: right;">
+                            <div style="text-decoration: line-through; color: var(--text-muted); font-size: 13px;">R$ 29,90</div>
+                            <div style="color: #16a34a; font-weight: 700;">R$ 0,00</div>
+                        </div>
                     </div>
                     <div style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; font-size: 15px;">
                         <span>Valor total</span>
