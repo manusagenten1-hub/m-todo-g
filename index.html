@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método Glúteo 3D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #18181b;
+            --primary-dark: #000000;
+            --bg-color: #f4f4f5;
+            --card-bg: #ffffff;
+            --text-main: #18181b;
+            --text-muted: #71717a;
+            --border-color: #f4f4f5;
+            --success: #18181b;
+            --shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 40px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --zinc-400: #a1a1aa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 520px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            padding: 24px 24px 0;
+        }
+        
+        .progress-text {
+            font-size: 11px;
+            color: var(--zinc-400);
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .progress-text::after {
+            content: 'Progresso';
+            color: var(--text-main);
+        }
+
+        .progress-track {
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.7s ease-out;
+            border-radius: 9999px;
+        }
+
+        /* Screen Area */
+        #screen-area {
+            flex: 1;
+            padding: 24px 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            animation: fadeSlideIn 0.5s forwards;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.1;
+            color: var(--text-main);
+        }
+
+        p {
+            font-size: 16px;
+            color: #27272a;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        /* Components */
+        
+        /* Slider */
+        .slider-container {
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .slider-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -10px;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* Options Cards */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .option-card {
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+            background-color: #fff;
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 20px 24px;
+            border-radius: var(--radius-md);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
+            width: 100%;
+            text-align: center;
+            margin-top: 16px;
+            box-shadow: 0 10px 15px -3px rgba(228, 228, 231, 0.5);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: scale(0.98);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-large {
+            font-size: 18px;
+            padding: 22px 24px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .btn-back {
+            background: transparent;
+            color: var(--zinc-400);
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-back:hover {
+            background: transparent;
+            color: var(--text-muted);
+        }
+
+        /* Placeholders */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            background: rgba(0,0,0,0.02);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .image-placeholder.large {
+            height: 300px;
+        }
+
+        /* Scratch Card */
+        .scratch-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            margin-bottom: 24px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .scratch-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .scratch-content.revealed {
+            opacity: 1;
+        }
+
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            cursor: pointer;
+        }
+        
+        .success-anim {
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(0.9); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Offer Page Elements */
+        .check-list {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        
+        .check-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+        
+        .check-list li::before {
+            content: '✓';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+        
+        .bonus-section {
+            background: rgba(216, 180, 226, 0.1);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            border: 1px dashed var(--primary);
+        }
+        
+        .bonus-section h3 {
+            color: var(--primary-dark);
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .order-bump {
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .order-bump:hover {
+            border-color: var(--primary);
+        }
+        
+        .order-bump input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+        
+        .order-bump-info {
+            flex: 1;
+        }
+        
+        .order-bump-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .order-bump-price {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .price-display {
+            text-align: center;
+            margin: 32px 0;
+        }
+        
+        .price-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        
+        .guarantee {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .custom-highlight {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div class="progress-container">
+            <div class="progress-text" id="progress-text">Etapa 1 de 13</div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <div id="screen-area">
+            <!-- Screens will be rendered here by JS -->
+        </div>
+    </div>
+
+    <script>
+        const answers = {};
+        let currentScreenIndex = 0;
+        
+        const screens = [
+            {
+                id: 'screen1',
+                type: 'slider',
+                title: 'Antes de começar, quero entender uma coisa...',
+                text: 'Quanto você realmente gostaria de olhar no espelho daqui a algumas semanas e perceber um bumbum mais firme, empinado e com um formato mais bonito — sem precisar passar horas na academia?',
+                buttonText: 'Continuar →'
+            },
+            {
+                id: 'screen2',
+                type: 'options',
+                title: 'Se pudesse escolher apenas um resultado, qual seria?',
+                text: 'Todo treino funciona melhor quando ele parte do objetivo certo.',
+                options: [
+                    '🍑 Mais volume e projeção',
+                    '✨ Mais firmeza e definição',
+                    '👖 Vestir a calça e gostar do caimento',
+                    '❤️ Quero conquistar tudo isso'
+                ]
+            },
+            {
+                id: 'screen3',
+                type: 'options',
+                title: 'Qual resultado faria você pensar: "Agora sim"?',
+                text: 'Escolha o formato que mais parece com aquilo que você gostaria de conquistar.',
+                options: [
+                    '🍑 Mais arredondado',
+                    '⬆️ Mais empinado',
+                    '✨ Mais firme',
+                    '⚖️ Mais proporcional'
+                ]
+            },
+            {
+                id: 'screen4',
+                type: 'info',
+                title: 'Por que mesmo com tanto esforço, trás tão pouca mudança?',
+                text: 'Seu glúteo não funciona como um músculo só. Ele é formado por três partes diferentes, e cada uma influencia o formato de um jeito.<br><br>O problema é que a maioria dos treinos concentra quase todo o esforço na parte maior, enquanto as outras recebem pouco estímulo.<br><br>Resultado? Você sente que treina bastante... mas o formato praticamente não muda.<br><br>Não é porque você "não consegue". É porque o estímulo não estava completo.',
+                buttonText: 'Entendi. Continuar →'
+            },
+            {
+                id: 'screen5',
+                type: 'info',
+                title: 'Não foi falta de disciplina.',
+                text: 'Você provavelmente fez o que quase todo mundo faz:<br>• Treino pronto da academia.<br>• Exercícios repetidos.<br>• Professor atendendo dezenas de pessoas ao mesmo tempo.<br>• Pouco tempo e muito esforço.<br>• Quase nenhuma orientação individual.<br><br>Quando isso acontece, fica difícil estimular o glúteo da forma que ele precisa. Por isso tanta gente treina durante meses sem perceber a mudança que esperava.',
+                buttonText: 'Continuar →'
+            },
+            {
+                id: 'screen6',
+                type: 'options',
+                title: 'Posso te fazer uma pergunta sincera?',
+                text: 'O protocolo leva cerca de 20 minutos por dia. Sem academia, sem equipamento e sem precisar reorganizar toda a sua rotina.<br><br>Você conseguiria reservar esse tempo durante os próximos 21 dias?',
+                options: [
+                    '✅ Sim, tranquilamente.',
+                    '🙂 Sim, mas vou precisar me organizar.',
+                    '🤔 Quero entender melhor antes.'
+                ]
+            },
+            {
+                id: 'screen7',
+                type: 'options',
+                title: 'Como é sua rotina durante o dia?',
+                text: 'Isso ajuda a adaptar as próximas recomendações.',
+                options: [
+                    'Menos de 4 horas sentada',
+                    'Entre 4 e 8 horas',
+                    'Mais de 8 horas',
+                    'Quase sempre em pé'
+                ]
+            },
+            {
+                id: 'screen8',
+                type: 'info',
+                title: 'Você não é a única que passou por isso.',
+                images: [
+                    'https://i.ibb.co/4w3dK8B1/Dia-1.webp',
+                    'https://i.ibb.co/S76J2CJt/Dia-1-1.webp',
+                    'https://i.ibb.co/nMTb6qHP/Chat-GPT-Image-1-de-ago-de-2026-22-51-18.webp'
+                ],
+                text: 'Além de mim, essas mulheres também achavam que o formato do bumbum nunca iria mudar. Até descobrirem uma forma diferente de treinar.',
+                bottomText: 'VENHA TER ESSA EVOLUÇÃO TAMBÉM!',
+                buttonText: 'Continuar'
+            },
+            {
+                id: 'screen9',
+                type: 'info',
+                title: 'A diferença não está em treinar mais.',
+                text: 'Está em estimular da forma certa.<br><br>Quando o treino conversa com o formato que você quer conquistar, o corpo responde de maneira completamente diferente. É exatamente isso que você vai ver agora.',
+                buttonText: 'Continuar →'
+            },
+            {
+                id: 'screen10',
+                type: 'options',
+                title: 'Última pergunta.',
+                text: 'Se esse método realmente fizer sentido para você, pretende começar ainda hoje?',
+                options: [
+                    '✅ Sim',
+                    '🤔 Talvez',
+                    '❓ Quero analisar primeiro'
+                ]
+            },
+            {
+                id: 'screen11',
+                type: 'info',
+                title: 'Imagina esse momento.',
+                text: 'Daqui a 21 dias... Você veste aquela roupa que normalmente evita, olha no espelho e percebe que o formato começou a mudar.<br><br>Pode parecer um detalhe, mas quem busca esse resultado sabe exatamente como essa sensação faz diferença.',
+                buttonText: 'Quero conhecer o método →'
+            },
+            {
+                id: 'screen12',
+                type: 'scratch',
+                title: 'Você chegou até aqui.',
+                text: 'Separei um presente para quem concluiu todo o diagnóstico. Raspe para descobrir.',
+                buttonText: 'Ver oferta →'
+            },
+            {
+                id: 'screen13',
+                type: 'offer',
+                title: '🎉 Seu plano personalizado está pronto.',
+                text: 'Com base nas suas respostas, o Método Glúteo 3D é o protocolo mais indicado para quem deseja conquistar um glúteo mais firme, arredondado e definido dedicando apenas 15 minutos por dia, em casa e sem equipamentos.',
+                buttonText: 'Quero começar meu Método Glúteo 3D'
+            }
+        ];
+
+        const appContainer = document.getElementById('screen-area');
+        const progressText = document.getElementById('progress-text');
+        const progressFill = document.getElementById('progress-fill');
+
+        function initQuiz() {
+            renderScreen(currentScreenIndex);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = screens.length;
+            const current = currentScreenIndex + 1;
+            progressText.textContent = `Etapa ${current} de ${total}`;
+            const percentage = (current / total) * 100;
+            progressFill.style.width = `${percentage}%`;
+        }
+
+        function nextScreen(answerValue = null) {
+            const currentScreen = screens[currentScreenIndex];
+            
+            if (answerValue !== null) {
+                saveAnswer(currentScreen.id, answerValue);
+            }
+
+            if (currentScreenIndex < screens.length - 1) {
+                currentScreenIndex++;
+                renderScreen(currentScreenIndex);
+                updateProgress();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function prevScreen() {
+            if (currentScreenIndex > 0) {
+                currentScreenIndex--;
+                renderScreen(currentScreenIndex);
+                updateProgress();
+            }
+        }
+
+        function saveAnswer(screenId, value) {
+            answers[screenId] = value;
+        }
+
+        function sendAnswers() {
+            console.log("----- RESPOSTAS DO QUIZ -----");
+            console.log(JSON.stringify(answers, null, 2));
+            console.log("-----------------------------");
+        }
+
+        function finishQuiz() {
+            sendAnswers();
+            window.location.href = "https://pay.cakto.com.br/3d94qwn_924614";
+        }
+
+        function renderScreen(index) {
+            const screenData = screens[index];
+            appContainer.innerHTML = ''; 
+            
+            const screenEl = document.createElement('div');
+            screenEl.className = 'screen active';
+            
+            if (screenData.title) {
+                const title = document.createElement('h1');
+                title.textContent = screenData.title;
+                screenEl.appendChild(title);
+            }
+
+            if (screenData.text) {
+                const text = document.createElement('p');
+                text.innerHTML = screenData.text;
+                screenEl.appendChild(text);
+            }
+
+            if (screenData.imagePlaceholder) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'image-placeholder';
+                placeholder.innerHTML = `<!-- Imagem: ${screenData.imagePlaceholder} --><br>INSERIR IMAGEM AQUI<br><small>${screenData.imagePlaceholder}</small>`;
+                screenEl.appendChild(placeholder);
+            }
+            
+            if (screenData.imagePlaceholderLarge) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'image-placeholder large';
+                placeholder.innerHTML = `<!-- Imagem: ${screenData.imagePlaceholderLarge} --><br>INSERIR IMAGEM AQUI<br><small>${screenData.imagePlaceholderLarge}</small>`;
+                screenEl.appendChild(placeholder);
+            }
+
+            if (screenData.images && screenData.images.length > 0) {
+                const imgContainer = document.createElement('div');
+                imgContainer.style.display = 'flex';
+                imgContainer.style.flexDirection = 'column';
+                imgContainer.style.gap = '16px';
+                imgContainer.style.marginBottom = '24px';
+                
+                screenData.images.forEach(src => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.style.width = '100%';
+                    img.style.height = 'auto';
+                    img.style.borderRadius = 'var(--radius-sm)';
+                    img.style.display = 'block';
+                    imgContainer.appendChild(img);
+                });
+                
+                screenEl.appendChild(imgContainer);
+            }
+
+            if (screenData.bottomText) {
+                const bottomTextEl = document.createElement('h2');
+                bottomTextEl.innerHTML = screenData.bottomText;
+                bottomTextEl.style.fontSize = '24px';
+                bottomTextEl.style.fontWeight = '800';
+                bottomTextEl.style.color = 'var(--primary)';
+                bottomTextEl.style.textAlign = 'center';
+                bottomTextEl.style.marginTop = '8px';
+                bottomTextEl.style.marginBottom = '24px';
+                screenEl.appendChild(bottomTextEl);
+            }
+
+            if (screenData.type === 'slider') {
+                renderSlider(screenEl, screenData);
+            } else if (screenData.type === 'options') {
+                renderOptions(screenEl, screenData);
+            } else if (screenData.type === 'scratch') {
+                renderScratchCard(screenEl);
+            } else if (screenData.type === 'offer') {
+                renderOffer(screenEl);
+            }
+
+            if (screenData.type !== 'options') {
+                const navContainer = document.createElement('div');
+                navContainer.className = 'nav-buttons';
+                
+                if (index > 0) {
+                    const backBtn = document.createElement('button');
+                    backBtn.className = 'btn-back';
+                    backBtn.innerHTML = 'Voltar etapa anterior';
+                    backBtn.onclick = prevScreen;
+                    navContainer.appendChild(backBtn);
+                }
+                
+                const nextBtn = document.createElement('button');
+                nextBtn.className = `btn ${screenData.buttonClass || ''}`;
+                nextBtn.textContent = screenData.buttonText || 'Continuar';
+                nextBtn.onclick = () => {
+                    if(screenData.type === 'slider') {
+                        const val = screenEl.querySelector('input[type=range]').value;
+                        nextScreen(val);
+                    } else if (screenData.type === 'offer') {
+                        finishQuiz();
+                    } else {
+                        nextScreen('Continuou');
+                    }
+                };
+                navContainer.appendChild(nextBtn);
+                screenEl.appendChild(navContainer);
+            } else if (index > 0 && screenData.type === 'options') {
+                 const navContainer = document.createElement('div');
+                 navContainer.className = 'nav-buttons';
+                 const backBtn = document.createElement('button');
+                 backBtn.className = 'btn-back';
+                 backBtn.innerHTML = 'Voltar etapa anterior';
+                 backBtn.onclick = prevScreen;
+                 navContainer.appendChild(backBtn);
+                 screenEl.appendChild(navContainer);
+            }
+
+            appContainer.appendChild(screenEl);
+            
+            if (typeof screenData.onRender === 'function') {
+                screenData.onRender(screenEl);
+            }
+        }
+
+        function renderSlider(container, data) {
+            const sliderWrap = document.createElement('div');
+            sliderWrap.className = 'slider-container';
+            
+            const valueDisplay = document.createElement('div');
+            valueDisplay.className = 'slider-value';
+            valueDisplay.textContent = '50';
+            
+            const input = document.createElement('input');
+            input.type = 'range';
+            input.min = '0';
+            input.max = '100';
+            input.value = '50';
+            
+            input.addEventListener('input', (e) => {
+                valueDisplay.textContent = e.target.value;
+            });
+            
+            sliderWrap.appendChild(valueDisplay);
+            sliderWrap.appendChild(input);
+            container.appendChild(sliderWrap);
+        }
+
+        function renderOptions(container, data) {
+            const list = document.createElement('div');
+            list.className = 'options-list';
+            
+            data.options.forEach(opt => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.textContent = opt;
+                card.onclick = () => {
+                    card.classList.add('selected');
+                    setTimeout(() => nextScreen(opt), 300);
+                };
+                list.appendChild(card);
+            });
+            
+            container.appendChild(list);
+        }
+
+        function renderScratchCard(container) {
+            const wrap = document.createElement('div');
+            wrap.className = 'scratch-container';
+            
+            const content = document.createElement('div');
+            content.className = 'scratch-content';
+            content.style.fontSize = '18px';
+            content.innerHTML = '🎁 Receitas da Evolução<br><span style="font-size: 14px;">80 receitas para emagrecer e ganhar massa muscular, com lista de ingredientes, preparo e muito mais!</span><br><br><small style="font-size: 14px; font-weight: normal;">(Gratuito!)</small>';
+            
+            const canvas = document.createElement('canvas');
+            canvas.id = 'scratch-canvas';
+            
+            wrap.appendChild(content);
+            wrap.appendChild(canvas);
+            container.appendChild(wrap);
+            
+            setTimeout(() => initScratchCanvas(canvas, content), 10);
+        }
+
+        function initScratchCanvas(canvas, hiddenContent) {
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            ctx.fillStyle = '#eaeaea';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#666';
+            ctx.font = '16px Inter';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Raspe aqui para revelar', canvas.width/2, canvas.height/2);
+            
+            let isDrawing = false;
+            let isRevealed = false;
+            
+            const startDraw = (e) => {
+                isDrawing = true;
+                scratch(e);
+            };
+            const endDraw = () => isDrawing = false;
+            
+            const scratch = (e) => {
+                if (!isDrawing || isRevealed) return;
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const canvasRect = canvas.getBoundingClientRect();
+                
+                const x = clientX - canvasRect.left;
+                const y = clientY - canvasRect.top;
+                
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                checkScratchPercent();
+            };
+            
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', scratch);
+            window.addEventListener('mouseup', endDraw);
+            
+            canvas.addEventListener('touchstart', startDraw, {passive: true});
+            canvas.addEventListener('touchmove', scratch, {passive: true});
+            window.addEventListener('touchend', endDraw);
+            
+            function checkScratchPercent() {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                let transparentPixels = 0;
+                
+                for (let i = 3; i < pixels.length; i += 4) {
+                    if (pixels[i] === 0) transparentPixels++;
+                }
+                
+                const totalPixels = pixels.length / 4;
+                const percent = (transparentPixels / totalPixels) * 100;
+                
+                if (percent > 40 && !isRevealed) {
+                    isRevealed = true;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    canvas.style.display = 'none';
+                    hiddenContent.classList.add('revealed', 'success-anim');
+                }
+            }
+        }
+
+        function renderOffer(container) {
+            const offerContent = document.createElement('div');
+            offerContent.className = 'offer-content';
+            offerContent.innerHTML = `
+                <div style="margin-bottom: 24px; background: #fff; padding: 20px; border-radius: var(--radius-md); border: 2px solid var(--border-color);">
+                    <h3 style="margin-bottom: 16px; font-size: 18px; color: var(--primary-dark);">O que está incluso no App</h3>
+                    <ul class="check-list" style="margin-bottom: 0;">
+                        <li style="font-weight: 700;">Método Glúteo 3D completo</li>
+                        <li>Protocolo de 21 dias</li>
+                        <li>Treinos passo a passo com imagens para se guiar</li>
+                        <li>Cronograma diário</li>
+                        <li>Acesso imediato</li>
+                        <li>Atualizações futuras sem custo adicional</li>
+                    </ul>
+                </div>
+                
+                <h3 style="margin-bottom: 12px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.1em; text-align: center;">Bônus desbloqueado</h3>
+                <div class="bonus-section" style="background: rgba(34, 197, 94, 0.1); border-color: #22c55e;">
+                    <h3 style="margin-bottom: 8px; color: #16a34a;">🎁 Receitas da Evolução (Bônus)</h3>
+                    <p style="font-size: 14px; margin-bottom: 0; line-height: 1.5;">Receba 80 receitas para emagrecer e ganhar massa muscular, com lista de ingredientes e modo de preparo!</p>
+                </div>
+                
+                <div style="background: #fff; padding: 20px; border-radius: var(--radius-md); border: 2px solid var(--border-color); margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                        <span>Método Glúteo 3D</span>
+                        <span><span style="text-decoration: line-through; color: var(--text-muted);">R$ 47,00</span></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+                        <span>Receitas da Evolução</span>
+                        <span><span style="text-decoration: line-through; color: var(--text-muted); margin-right: 8px;">R$ 29,90</span><span style="color: #16a34a; font-weight: 700;">R$ 0,00</span></span>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; font-size: 15px;">
+                        <span>Valor total</span>
+                        <span style="text-decoration: line-through; color: var(--text-muted);">R$ 76,90</span>
+                    </div>
+                    
+                    <div style="text-align: center; padding-top: 8px;">
+                        <div style="font-size: 15px; font-weight: 800; color: #ef4444; margin-bottom: 4px; text-transform: uppercase;">A oferta acaba em 7 dias!</div>
+                        <div id="countdown-timer" style="font-size: 22px; font-weight: 800; color: #ef4444; margin-bottom: 16px; letter-spacing: 1px;">07d 00h 00m 00s</div>
+                        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">Hoje você paga apenas</div>
+                        <div style="font-size: 48px; font-weight: 800; color: #16a34a; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1;">R$ 9,90</div>
+                        <div style="font-size: 13px; color: var(--text-muted); display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                            <span style="display: flex; align-items: center; gap: 4px;"><span>✓</span> Pagamento único</span>
+                            <span style="display: flex; align-items: center; gap: 4px;"><span>✓</span> Sem mensalidade</span>
+                            <span style="display: flex; align-items: center; gap: 4px;"><span>✓</span> Acesso imediato</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); padding: 24px; border-radius: var(--radius-md); margin-bottom: 0; text-align: center;">
+                    <h3 style="color: #16a34a; font-size: 18px; margin-bottom: 16px;">🛡️ Garantia incondicional de 14 dias</h3>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-main); line-height: 1.5;">Você tem 14 dias para testar o Método Glúteo 3D.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-main); line-height: 1.5;">Se sentir que ele não é para você, basta solicitar o reembolso dentro desse prazo e devolveremos 100% do valor pago.</p>
+                    <p style="font-size: 14px; font-weight: 700; margin-bottom: 0; color: var(--text-main);">Sem burocracia.</p>
+                </div>
+            `;
+            
+            container.appendChild(offerContent);
+            
+            const timerEl = container.querySelector('#countdown-timer');
+            if (timerEl) {
+                const targetDate = new Date("2026-08-08T23:59:59").getTime();
+                
+                function updateTimer() {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+                    
+                    if (distance < 0) {
+                        timerEl.innerHTML = "OFERTA EXPIRADA";
+                        return;
+                    }
+                    
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    timerEl.innerHTML = `${days.toString().padStart(2, '0')}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+                }
+                
+                updateTimer();
+                setInterval(updateTimer, 1000);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initQuiz);
+
+    </script>
+</body>
+</html>
