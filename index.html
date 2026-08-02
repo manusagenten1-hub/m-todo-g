@@ -210,13 +210,13 @@
 
         .option-card:hover {
             border-color: var(--primary);
-            background-color: #fff;
+            background-color: var(--bg-color);
         }
 
         .option-card.selected {
             border-color: var(--primary);
-            background-color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background-color: var(--bg-color);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15);
         }
 
         /* Buttons */
@@ -490,119 +490,123 @@
         const screens = [
             {
                 id: 'screen1',
-                type: 'slider',
-                title: 'Antes de começar, quero entender uma coisa...',
-                text: 'Quanto você realmente gostaria de olhar no espelho daqui a algumas semanas e perceber um bumbum mais firme, empinado e com um formato mais bonito — sem precisar passar horas na academia?',
-                buttonText: 'Continuar →'
+                type: 'info',
+                title: 'Descubra o plano ideal para conquistar um glúteo mais firme e definido em apenas 21 dias, dedicando apenas 15 minutos do seu dia.',
+                smallTitle: true,
+                centerTitle: true,
+                images: ['https://i.ibb.co/nMTb6qHP/Chat-GPT-Image-1-de-ago-de-2026-22-51-18.webp'],
+                buttonText: 'Quero montar meu plano agora →',
+                buttonHelpText: 'Leva menos de 1 minuto.',
+                footerText: 'Ambiente seguro • Seus dados protegidos • Privacidade garantida'
             },
             {
                 id: 'screen2',
                 type: 'options',
-                title: 'Se pudesse escolher apenas um resultado, qual seria?',
-                text: 'Todo treino funciona melhor quando ele parte do objetivo certo.',
+                title: 'Qual resultado você mais gostaria de conquistar hoje?',
+                text: 'Seja sincera, não existe resposta certa ou errada.',
                 options: [
-                    '🍑 Mais volume e projeção',
-                    '✨ Mais firmeza e definição',
-                    '👖 Vestir a calça e gostar do caimento',
-                    '❤️ Quero conquistar tudo isso'
+                    '🍑 Bumbum mais firme e definido',
+                    '⬆️ Bumbum mais empinado e arredondado',
+                    '⚖️ Bumbum mais proporcional ao corpo',
+                    '✨ Quero tudo isso junto'
                 ]
             },
             {
                 id: 'screen3',
                 type: 'options',
-                title: 'Qual resultado faria você pensar: "Agora sim"?',
-                text: 'Escolha o formato que mais parece com aquilo que você gostaria de conquistar.',
+                title: 'Em qual momento você mais gostaria de perceber essa mudança?',
+                text: 'Sabe aquele momento que você pensa: "Nossa, que diferença!"? Onde ele seria mais importante para você?',
                 options: [
-                    '🍑 Mais arredondado',
-                    '⬆️ Mais empinado',
-                    '✨ Mais firme',
-                    '⚖️ Mais proporcional'
+                    '🪞 Quando me olho no espelho depois do banho',
+                    '👗 Quando visto aquela calça ou vestido que adoro',
+                    '🏖️ Quando vou à praia ou piscina',
+                    '🥰 No meu dia a dia, para me sentir mais confiante'
                 ]
             },
             {
                 id: 'screen4',
-                type: 'info',
-                title: 'Por que mesmo com tanto esforço, trás tão pouca mudança?',
-                text: 'Seu glúteo não funciona como um músculo só. Ele é formado por três partes diferentes, e cada uma influencia o formato de um jeito.<br><br>O problema é que a maioria dos treinos concentra quase todo o esforço na parte maior, enquanto as outras recebem pouco estímulo.<br><br>Resultado? Você sente que treina bastante... mas o formato praticamente não muda.<br><br>Não é porque você "não consegue". É porque o estímulo não estava completo.',
-                buttonText: 'Entendi. Continuar →'
+                type: 'options',
+                title: 'Você já tentou algo para alcançar esse resultado?',
+                text: 'Conta pra mim o que você já experimentou até agora.',
+                options: [
+                    '🏋️‍♀️ Treinos na academia (mas desanimei)',
+                    '🏠 Exercícios em casa por conta própria',
+                    '📱 Aulas e vídeos espalhados pela internet',
+                    '🤷‍♀️ Ainda não encontrei um método que realmente funcionasse'
+                ]
             },
             {
                 id: 'screen5',
-                type: 'info',
-                title: 'Não foi falta de disciplina.',
-                text: 'Você provavelmente fez o que quase todo mundo faz:<br>• Treino pronto da academia.<br>• Exercícios repetidos.<br>• Professor atendendo dezenas de pessoas ao mesmo tempo.<br>• Pouco tempo e muito esforço.<br>• Quase nenhuma orientação individual.<br><br>Quando isso acontece, fica difícil estimular o glúteo da forma que ele precisa. Por isso tanta gente treina durante meses sem perceber a mudança que esperava.',
-                buttonText: 'Continuar →'
+                type: 'options',
+                title: 'O que mais te desanima quando você tenta alcançar esse resultado?',
+                text: 'Muitas mulheres desistem no meio do caminho, e o motivo geralmente é um desses abaixo. Qual é o seu?',
+                options: [
+                    '😓 Treino, me esforço, mas quase não vejo diferença no espelho',
+                    '😕 Não sei se estou fazendo os exercícios certos',
+                    '⏳ Tenho muita dificuldade para manter uma rotina',
+                    '🏃‍♀️ Minha rotina é muito corrida, falta tempo'
+                ]
             },
             {
                 id: 'screen6',
                 type: 'options',
-                title: 'Posso te fazer uma pergunta sincera?',
-                text: 'O protocolo leva cerca de 20 minutos por dia. Sem academia, sem equipamento e sem precisar reorganizar toda a sua rotina.<br><br>Você conseguiria reservar esse tempo durante os próximos 21 dias?',
+                title: 'Como funciona a sua rotina durante o dia?',
+                text: 'Para que o plano seja real para você, preciso entender o seu dia a dia. Como é a maior parte do seu tempo?',
                 options: [
-                    '✅ Sim, tranquilamente.',
-                    '🙂 Sim, mas vou precisar me organizar.',
-                    '🤔 Quero entender melhor antes.'
+                    '🪑 Passo a maior parte do dia sentada',
+                    '🏃‍♀️ Estou sempre de um lado para o outro',
+                    '⚖️ Um pouco dos dois, divido meu tempo'
                 ]
             },
             {
                 id: 'screen7',
                 type: 'options',
-                title: 'Como é sua rotina durante o dia?',
-                text: 'Isso ajuda a adaptar as próximas recomendações.',
+                title: 'Um pequeno compromisso com você mesma',
+                text: 'Se eu te dissesse que é possível ver resultados reais dedicando aproximadamente 15 minutos por dia, você conseguiria manter esse compromisso durante 21 dias?',
                 options: [
-                    'Menos de 4 horas sentada',
-                    'Entre 4 e 8 horas',
-                    'Mais de 8 horas',
-                    'Quase sempre em pé'
+                    '✅ Sim, consigo separar 15 minutos',
+                    '💪 Com certeza, se der resultado eu dou um jeito',
+                    '🤔 Acho que sim, mas precisaria me organizar'
                 ]
             },
             {
                 id: 'screen8',
                 type: 'info',
-                title: 'Você não é a única que passou por isso.',
+                title: 'Você não está sozinha nessa.',
                 images: [
                     'https://i.ibb.co/4w3dK8B1/Dia-1.webp',
                     'https://i.ibb.co/S76J2CJt/Dia-1-1.webp',
                     'https://i.ibb.co/nMTb6qHP/Chat-GPT-Image-1-de-ago-de-2026-22-51-18.webp'
                 ],
-                text: 'Além de mim, essas mulheres também achavam que o formato do bumbum nunca iria mudar. Até descobrirem uma forma diferente de treinar.',
-                bottomText: 'VENHA TER ESSA EVOLUÇÃO TAMBÉM!',
-                buttonText: 'Continuar'
+                text: 'Além de mim, essas mulheres também achavam que o formato do bumbum nunca iria mudar.<br><br>Até descobrirem uma forma diferente de treinar.',
+                buttonText: 'Continuar →'
             },
             {
                 id: 'screen9',
                 type: 'info',
-                title: 'A diferença não está em treinar mais.',
-                text: 'Está em estimular da forma certa.<br><br>Quando o treino conversa com o formato que você quer conquistar, o corpo responde de maneira completamente diferente. É exatamente isso que você vai ver agora.',
-                buttonText: 'Continuar →'
+                title: 'Talvez o problema nunca tenha sido falta de esforço.',
+                text: 'Muitas vezes, colocamos a culpa na nossa disciplina, na nossa genética ou na nossa idade.<br><br>Mas a verdade é que fazer o exercício errado, ou treinar sem um método, gasta sua energia e não traz o resultado que você deseja.<br><br>Quando você segue um plano passo a passo, feito para o corpo da mulher, a transformação acontece.',
+                buttonText: 'Quero conhecer meu plano personalizado →'
             },
             {
                 id: 'screen10',
-                type: 'options',
-                title: 'Última pergunta.',
-                text: 'Se esse método realmente fizer sentido para você, pretende começar ainda hoje?',
-                options: [
-                    '✅ Sim',
-                    '🤔 Talvez',
-                    '❓ Quero analisar primeiro'
-                ]
-            },
-            {
-                id: 'screen11',
-                type: 'info',
-                title: 'Imagina esse momento.',
-                text: 'Daqui a 21 dias... Você veste aquela roupa que normalmente evita, olha no espelho e percebe que o formato começou a mudar.<br><br>Pode parecer um detalhe, mas quem busca esse resultado sabe exatamente como essa sensação faz diferença.',
-                buttonText: 'Quero conhecer o método →'
-            },
-            {
-                id: 'screen12',
                 type: 'scratch',
                 title: 'Você chegou até aqui.',
                 text: 'Separei um presente para quem concluiu todo o diagnóstico. <strong>Raspe para descobrir.</strong>',
                 buttonText: 'Ver oferta →'
             },
             {
-                id: 'screen13',
+                id: 'screen11',
+                type: 'info',
+                title: 'Veja o tipo de resultado que você pode conquistar em apenas 21 dias.',
+                images: ['https://i.ibb.co/zHT8q25y/Chat-GPT-Image-2-de-ago-de-2026-16-49-58.png'],
+                smallImage: true,
+                centerImages: true,
+                text: 'Cada evolução começa com um primeiro passo.<br><br>Seu plano personalizado foi preparado para ajudar você a conquistar um glúteo mais firme, arredondado e definido, respeitando sua rotina e dedicando apenas 15 minutos por dia.',
+                buttonText: 'Acessar meu plano personalizado →'
+            },
+            {
+                id: 'screen12',
                 type: 'offer',
                 title: '🎉 Seu plano personalizado está pronto.',
                 text: 'Com base nas suas respostas, o Método Glúteo 3D é o protocolo mais indicado para quem deseja conquistar um glúteo mais firme, arredondado e definido dedicando apenas 20 minutos por dia, em casa e sem equipamentos.',
@@ -676,6 +680,8 @@
             if (screenData.title) {
                 const title = document.createElement('h1');
                 title.textContent = screenData.title;
+                if (screenData.smallTitle) title.style.fontSize = '22px';
+                if (screenData.centerTitle) title.style.textAlign = 'center';
                 screenEl.appendChild(title);
             }
 
@@ -705,11 +711,12 @@
                 imgContainer.style.flexDirection = 'column';
                 imgContainer.style.gap = '16px';
                 imgContainer.style.marginBottom = '24px';
+                if (screenData.centerImages) imgContainer.style.alignItems = 'center';
                 
                 screenData.images.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
-                    img.style.width = '100%';
+                    img.style.width = screenData.smallImage ? '70%' : '100%';
                     img.style.height = 'auto';
                     img.style.borderRadius = 'var(--radius-sm)';
                     img.style.display = 'block';
@@ -717,6 +724,15 @@
                 });
                 
                 screenEl.appendChild(imgContainer);
+            }
+
+            if (screenData.subText) {
+                const subText = document.createElement('p');
+                subText.innerHTML = screenData.subText;
+                if (screenData.subTextCenter) {
+                    subText.style.textAlign = 'center';
+                }
+                screenEl.appendChild(subText);
             }
 
             if (screenData.bottomText) {
@@ -767,6 +783,27 @@
                     }
                 };
                 navContainer.appendChild(nextBtn);
+                
+                if (screenData.buttonHelpText) {
+                    const helpText = document.createElement('div');
+                    helpText.textContent = screenData.buttonHelpText;
+                    helpText.style.fontSize = '14px';
+                    helpText.style.color = 'var(--text-muted)';
+                    helpText.style.textAlign = 'center';
+                    helpText.style.marginTop = '12px';
+                    navContainer.appendChild(helpText);
+                }
+
+                if (screenData.footerText) {
+                    const footerText = document.createElement('div');
+                    footerText.textContent = screenData.footerText;
+                    footerText.style.fontSize = '12px';
+                    footerText.style.color = 'var(--text-muted)';
+                    footerText.style.textAlign = 'center';
+                    footerText.style.marginTop = '8px';
+                    navContainer.appendChild(footerText);
+                }
+                
                 screenEl.appendChild(navContainer);
             } else if (index > 0 && screenData.type === 'options') {
                  const navContainer = document.createElement('div');
