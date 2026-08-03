@@ -494,7 +494,7 @@
                 title: 'Descubra o plano ideal para conquistar um glúteo mais firme e definido em apenas 21 dias, dedicando apenas 15 minutos do seu dia.',
                 smallTitle: true,
                 centerTitle: true,
-                images: ['https://i.ibb.co/nMTb6qHP/Chat-GPT-Image-1-de-ago-de-2026-22-51-18.webp'],
+                images: ['https://i.ibb.co/qMwkcT20/Chat-GPT-Image-1-de-ago-de-2026-22-51-18-1.webp'],
                 buttonText: 'Quero montar meu plano agora →',
                 buttonHelpText: 'Leva menos de 1 minuto.',
                 footerText: 'Ambiente seguro • Seus dados protegidos • Privacidade garantida'
@@ -602,7 +602,7 @@
                 images: ['https://i.ibb.co/zHT8q25y/Chat-GPT-Image-2-de-ago-de-2026-16-49-58.png'],
                 smallImage: true,
                 centerImages: true,
-                text: 'Cada evolução começa com um primeiro passo.<br><br>Seu plano personalizado foi preparado para ajudar você a conquistar um glúteo mais firme, arredondado e definido, respeitando sua rotina e dedicando apenas 15 minutos por dia.',
+                text: 'Cada evolução começa com um primeiro passo.<br><br>Seu plano personalizado foi preparado para ajudar você a conquistar um glúteo mais firme, arredondado e definido, respeitando sua rotina e dedicando apenas 20 minutos por dia.',
                 buttonText: 'Acessar meu plano personalizado →'
             },
             {
@@ -685,12 +685,6 @@
                 screenEl.appendChild(title);
             }
 
-            if (screenData.text) {
-                const text = document.createElement('p');
-                text.innerHTML = screenData.text;
-                screenEl.appendChild(text);
-            }
-
             if (screenData.imagePlaceholder) {
                 const placeholder = document.createElement('div');
                 placeholder.className = 'image-placeholder';
@@ -724,6 +718,12 @@
                 });
                 
                 screenEl.appendChild(imgContainer);
+            }
+
+            if (screenData.text) {
+                const text = document.createElement('p');
+                text.innerHTML = screenData.text;
+                screenEl.appendChild(text);
             }
 
             if (screenData.subText) {
@@ -980,7 +980,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px;">
                         <span>Método Glúteo 3D</span>
                         <div style="text-align: right;">
-                            <div style="text-decoration: line-through; color: var(--text-muted); font-size: 13px;">R$ 47,00</div>
+                            <div style="text-decoration: line-through; color: var(--text-muted); font-size: 13px;">R$ 59,90</div>
                             <div style="color: #16a34a; font-weight: 700;">R$ 9,90</div>
                         </div>
                     </div>
