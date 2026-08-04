@@ -584,19 +584,35 @@
             {
                 id: 'screen9',
                 type: 'info',
+                title: '✨ Veja o que aconteceu com mulheres que seguiram o plano personalizado.',
+                titleFontSize: '24px',
+                centerTitle: true,
+                topText: 'Esses são alguns relatos de mulheres que decidiram seguir o plano indicado para seus objetivos e compartilharam sua evolução ao longo dos 21 dias.',
+                images: [
+                    'https://i.ibb.co/pvvTwZRj/Chat-GPT-Image-3-de-ago-de-2026-21-25-02.png',
+                    'https://i.ibb.co/jkSJm4X5/Chat-GPT-Image-3-de-ago-de-2026-21-24-56.png'
+                ],
+                imageWidth: '85%',
+                centerImages: true,
+                text: 'Cada resultado é único, mas todas elas começaram exatamente da mesma forma:<br><br>Respondendo ao teste e seguindo um plano personalizado para sua rotina.',
+                buttonText: 'Continuar →'
+            },
+            {
+                id: 'screen10',
+                type: 'info',
                 title: 'Talvez o problema nunca tenha sido falta de esforço.',
                 text: 'Muitas vezes, colocamos a culpa na nossa disciplina, na nossa genética ou na nossa idade.<br><br>Mas a verdade é que fazer o exercício errado, ou treinar sem um método, gasta sua energia e não traz o resultado que você deseja.<br><br>Quando você segue um plano passo a passo, feito para o corpo da mulher, a transformação acontece.',
                 buttonText: 'Quero conhecer meu plano personalizado →'
             },
             {
-                id: 'screen10',
+                id: 'screen11',
                 type: 'scratch',
                 title: 'Você chegou até aqui.',
                 text: 'Separei um presente para quem concluiu todo o diagnóstico. <strong>Raspe para descobrir.</strong>',
                 buttonText: 'Ver oferta →'
             },
             {
-                id: 'screen11',
+                id: 'screen12',
                 type: 'info',
                 title: 'Veja o tipo de resultado que você pode conquistar em apenas 21 dias.',
                 images: ['https://i.ibb.co/zHT8q25y/Chat-GPT-Image-2-de-ago-de-2026-16-49-58.png'],
@@ -606,7 +622,7 @@
                 buttonText: 'Acessar meu plano personalizado →'
             },
             {
-                id: 'screen12',
+                id: 'screen13',
                 type: 'offer',
                 title: '🎉 Seu plano personalizado está pronto.',
                 text: 'Com base nas suas respostas, o Método Glúteo 3D é o protocolo mais indicado para quem deseja conquistar um glúteo mais firme, arredondado e definido dedicando apenas 20 minutos por dia, em casa e sem equipamentos.',
@@ -680,9 +696,20 @@
             if (screenData.title) {
                 const title = document.createElement('h1');
                 title.textContent = screenData.title;
-                if (screenData.smallTitle) title.style.fontSize = '22px';
+                if (screenData.titleFontSize) {
+                    title.style.fontSize = screenData.titleFontSize;
+                } else if (screenData.smallTitle) {
+                    title.style.fontSize = '22px';
+                }
                 if (screenData.centerTitle) title.style.textAlign = 'center';
                 screenEl.appendChild(title);
+            }
+
+            if (screenData.topText) {
+                const topText = document.createElement('p');
+                topText.innerHTML = screenData.topText;
+                topText.style.marginBottom = '24px';
+                screenEl.appendChild(topText);
             }
 
             if (screenData.imagePlaceholder) {
@@ -710,7 +737,7 @@
                 screenData.images.forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
-                    img.style.width = screenData.smallImage ? '70%' : '100%';
+                    img.style.width = screenData.imageWidth || (screenData.smallImage ? '70%' : '100%');
                     img.style.height = 'auto';
                     img.style.borderRadius = 'var(--radius-sm)';
                     img.style.display = 'block';
