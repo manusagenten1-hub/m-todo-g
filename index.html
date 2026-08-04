@@ -614,6 +614,50 @@
             {
                 id: 'screen12',
                 type: 'info',
+                title: 'Espera, você achou mesmo que era só isso?',
+                text: 'Tem mais um bônus gratuito esperando por você!',
+                onRender: (screenEl) => {
+                    const nav = screenEl.querySelector('.nav-buttons');
+                    
+                    const bonusWrap = document.createElement('div');
+                    bonusWrap.style.textAlign = 'center';
+                    bonusWrap.style.marginBottom = '24px';
+                    
+                    const revealBtn = document.createElement('button');
+                    revealBtn.className = 'btn';
+                    revealBtn.style.background = '#ef4444';
+                    revealBtn.style.marginBottom = '16px';
+                    revealBtn.textContent = 'Quero o bônus 🎁';
+                    
+                    const bonusContent = document.createElement('div');
+                    bonusContent.style.display = 'none';
+                    bonusContent.style.background = '#fff';
+                    bonusContent.style.padding = '20px';
+                    bonusContent.style.borderRadius = 'var(--radius-md)';
+                    bonusContent.style.border = '2px solid var(--primary)';
+                    bonusContent.style.textAlign = 'left';
+                    bonusContent.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                    
+                    bonusContent.innerHTML = `
+                        <h3 style="color: var(--primary-dark); font-size: 18px; margin-bottom: 12px;">🎁 Guia de automassagem corporal</h3>
+                        <p style="font-size: 15px; color: var(--text-main); margin-bottom: 0;">Para ajudar na retenção de líquido e modelar o corpo. <br><br><strong>(Gratuito!)</strong></p>
+                    `;
+                    
+                    revealBtn.onclick = () => {
+                        revealBtn.style.display = 'none';
+                        bonusContent.style.display = 'block';
+                    };
+                    
+                    bonusWrap.appendChild(revealBtn);
+                    bonusWrap.appendChild(bonusContent);
+                    
+                    screenEl.insertBefore(bonusWrap, nav);
+                },
+                buttonText: 'Continuar →'
+            },
+            {
+                id: 'screen13',
+                type: 'info',
                 title: 'Veja o tipo de resultado que você pode conquistar em apenas 21 dias.',
                 images: ['https://i.ibb.co/zHT8q25y/Chat-GPT-Image-2-de-ago-de-2026-16-49-58.png'],
                 smallImage: true,
@@ -622,7 +666,7 @@
                 buttonText: 'Acessar meu plano personalizado →'
             },
             {
-                id: 'screen13',
+                id: 'screen14',
                 type: 'offer',
                 title: '🎉 Seu plano personalizado está pronto.',
                 text: 'Com base nas suas respostas, o Método Glúteo 3D é o protocolo mais indicado para quem deseja conquistar um glúteo mais firme, arredondado e definido dedicando apenas 20 minutos por dia, em casa e sem equipamentos.',
@@ -997,10 +1041,15 @@
                     </ul>
                 </div>
                 
-                <h3 style="margin-bottom: 12px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.1em; text-align: center;">Bônus desbloqueado</h3>
+                <h3 style="margin-bottom: 12px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.1em; text-align: center;">Bônus desbloqueados</h3>
                 <div class="bonus-section" style="background: rgba(34, 197, 94, 0.1); border-color: #22c55e;">
                     <h3 style="margin-bottom: 8px; color: #16a34a;">🎁 Receitas da Evolução (Bônus)</h3>
                     <p style="font-size: 14px; margin-bottom: 0; line-height: 1.5;">Receba 80 receitas para emagrecer e ganhar massa muscular, com lista de ingredientes e modo de preparo!</p>
+                </div>
+
+                <div class="bonus-section" style="background: rgba(34, 197, 94, 0.1); border-color: #22c55e;">
+                    <h3 style="margin-bottom: 8px; color: #16a34a;">🎁 Guia de automassagem corporal (Bônus)</h3>
+                    <p style="font-size: 14px; margin-bottom: 0; line-height: 1.5;">Um guia completo para ajudar na retenção de líquido e modelar o corpo.</p>
                 </div>
                 
                 <div style="background: #fff; padding: 20px; border-radius: var(--radius-md); border: 2px solid var(--border-color); margin-bottom: 24px;">
@@ -1018,9 +1067,16 @@
                             <div style="color: #16a34a; font-weight: 700;">R$ 0,00</div>
                         </div>
                     </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px;">
+                        <span>Guia de automassagem</span>
+                        <div style="text-align: right;">
+                            <div style="text-decoration: line-through; color: var(--text-muted); font-size: 13px;">R$ 39,90</div>
+                            <div style="color: #16a34a; font-weight: 700;">R$ 0,00</div>
+                        </div>
+                    </div>
                     <div style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; font-size: 15px;">
                         <span>Valor total</span>
-                        <span style="text-decoration: line-through; color: var(--text-muted);">R$ 89,80</span>
+                        <span style="text-decoration: line-through; color: var(--text-muted);">R$ 129,70</span>
                     </div>
                     
                     <div style="text-align: center; padding-top: 8px;">
